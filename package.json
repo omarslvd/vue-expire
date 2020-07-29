@@ -13,6 +13,9 @@
     "@progress/kendo-vue-dateinputs": "^1.0.3",
     "@progress/kendo-vue-intl": "^1.0.3",
     "bootstrap-vue": "^2.1.0",
+    "cldr-core": "^36.0.0",
+    "cldr-dates-full": "^36.0.0",
+    "cldr-numbers-full": "^36.0.0",
     "core-js": "^3.6.5",
     "vue": "^2.6.11"
   },
