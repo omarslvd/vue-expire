@@ -1,6 +1,7 @@
 <template>
   <div class="hello">
     <datepicker />
+    <b-btn variant="primary">Click</b-btn>
     <h1>{{ msg }}</h1>
     <datepicker />
     <p>
