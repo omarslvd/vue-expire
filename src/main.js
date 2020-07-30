@@ -5,6 +5,7 @@ import './plugins/bootstrap-vue'
 import App from './App.vue'
 import '@progress/kendo-ui'
 import '@progress/kendo-theme-bootstrap/dist/all.css'
+import './assets/vue.css'
 import { IntlProvider, load, loadMessages, LocalizationProvider } from '@progress/kendo-vue-intl'
 import { DatePicker } from '@progress/kendo-vue-dateinputs'
 
