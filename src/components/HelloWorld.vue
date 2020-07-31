@@ -4,6 +4,13 @@
     <b-btn variant="primary">Click</b-btn>
     <h1>{{ msg }}</h1>
     <datepicker />
+    <kendo-scheduler>
+      <kendo-scheduler-view :type="'day'"></kendo-scheduler-view>
+      <kendo-scheduler-view :type="'workWeek'" :selected="true"></kendo-scheduler-view>
+      <kendo-scheduler-view :type="'week'"></kendo-scheduler-view>
+      <kendo-scheduler-view :type="'month'"></kendo-scheduler-view>
+      <kendo-scheduler-view :type="'agenda'"></kendo-scheduler-view>
+    </kendo-scheduler>
     <p>
       For a guide and recipes on how to configure / customize this project,<br>
       check out the

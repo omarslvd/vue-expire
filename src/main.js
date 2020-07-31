@@ -3,11 +3,17 @@ import 'mutationobserver-shim'
 import Vue from 'vue'
 import './plugins/bootstrap-vue'
 import App from './App.vue'
+
 import '@progress/kendo-ui'
 import '@progress/kendo-theme-bootstrap/dist/all.css'
 import './assets/vue.css'
+
 import { IntlProvider, load, loadMessages, LocalizationProvider } from '@progress/kendo-vue-intl'
 import { DatePicker } from '@progress/kendo-vue-dateinputs'
+import { Scheduler  } from '@progress/kendo-scheduler-vue-wrapper'
+// import { SchedulerResource } from '@progress/kendo-scheduler-vue-wrapper'
+ import { SchedulerView } from '@progress/kendo-scheduler-vue-wrapper'
+// import { SchedulerInstaller } from '@progress/kendo-scheduler-vue-wrapper'
 
 import likelySubtags from 'cldr-core/supplemental/likelySubtags.json'
 import currencyData from 'cldr-core/supplemental/currencyData.json'
@@ -19,7 +25,10 @@ import dateFields from 'cldr-dates-full/main/es/dateFields.json'
 import timeZoneNames from 'cldr-dates-full/main/es/timeZoneNames.json'
 
 Vue.config.productionTip = false
+
 Vue.component('datepicker', DatePicker)
+Vue.component('kendo-scheduler', Scheduler);
+Vue.component('kendo-scheduler-view', SchedulerView);
 Vue.component('intl', IntlProvider);
 Vue.component('localization', LocalizationProvider);
 
