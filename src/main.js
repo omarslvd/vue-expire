@@ -13,6 +13,7 @@ import '@progress/kendo-ui/js/cultures/kendo.culture.es-MX.js'
 import '@progress/kendo-ui/js/messages/kendo.messages.es-MX.js'
 
 import { IntlProvider, load, loadMessages, LocalizationProvider } from '@progress/kendo-vue-intl'
+import { Grid } from '@progress/kendo-vue-grid'
 import { DatePicker } from '@progress/kendo-vue-dateinputs'
 import { Scheduler  } from '@progress/kendo-scheduler-vue-wrapper'
 // import { SchedulerResource } from '@progress/kendo-scheduler-vue-wrapper'
@@ -30,6 +31,7 @@ import timeZoneNames from 'cldr-dates-full/main/es/timeZoneNames.json'
 
 Vue.config.productionTip = false
 
+Vue.component('grid', Grid);
 Vue.component('datepicker', DatePicker)
 Vue.component('kendo-scheduler', Scheduler)
 Vue.component('kendo-scheduler-view', SchedulerView)
