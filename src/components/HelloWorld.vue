@@ -5,7 +5,7 @@
     <datepicker />
     <b-btn variant="primary">Click</b-btn>
     <grid :data-items="items" :columns="columns" :edit-field="'inEdit'"></grid>
-    <kendo-scheduler :data-source="items" @change="onChange" @save="onSave">
+    <kendo-scheduler :data-source="items" :selectable="true" :editable-template="editableTemplate" @save="onSave" @remove="onRemove" @change="onChange">
       <!-- <kendo-scheduler-view :type="'day'"></kendo-scheduler-view>
       <kendo-scheduler-view :type="'workWeek'" :selected="true"></kendo-scheduler-view>
       <kendo-scheduler-view :type="'week'"></kendo-scheduler-view>-->
@@ -41,6 +41,20 @@ export default {
           title: "dos 2",
         },
       ],
+      editableTemplate: `
+        <div class="k-edit-label"><label for="title">Title</label></div>
+          <div data-container-for="title" class="k-edit-field">
+          <input type="text" class="k-textbox" name="title" required="required" data-bind="value:title">
+        </div>
+        <div class="k-edit-label">
+          <label for="start">Start</label>
+        </div>
+        <div data-container-for="start" class="k-edit-field">
+          <input type="text" data-type="date" data-role="datepicker" data-bind="value:start," name="start" />
+          <span data-bind="text: startTimezone"></span>
+          <span data-for="start" class="k-invalid-msg" style="display: none;"></span>
+        </div>
+      `
     };
   },
   computed: {
@@ -55,10 +69,32 @@ export default {
     onSave: function (ev) {
       console.log("Event :: edit", ev);
 
-      var index = this.items.findIndex(item => item.id == ev.event.id);
-     
-      this.items[index].title = ev.event.title;
+      if (ev.event.id > 0) {
+        var index = this.items.findIndex(item => item.id == ev.event.id);
+      
+        this.items[index].title = ev.event.title;
+        this.items[index].start = ev.event.start;
+      } else {
+        this.items.push({
+          id: this.items.length + 1,
+          name: ev.event.title,
+          expireDate: ev.event.start,
+          start: ev.event.start,
+          end: ev.event.start,
+          title: ev.event.title
+        })
+      }
     },
+    onRemove: function (ev) {
+      console.log("Event :: remove", ev);
+
+      var index = this.items.findIndex(item => item.id == ev.event.id);
+      
+      this.items.splice(index, 1);
+    },
+    onChange: function (ev) {
+      console.log("Event :: change", ev);
+    }
   },
 };
 </script>
