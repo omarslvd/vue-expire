@@ -17,7 +17,7 @@ import { Grid } from '@progress/kendo-vue-grid'
 import { DatePicker } from '@progress/kendo-vue-dateinputs'
 import { Scheduler  } from '@progress/kendo-scheduler-vue-wrapper'
 // import { SchedulerResource } from '@progress/kendo-scheduler-vue-wrapper'
- import { SchedulerView } from '@progress/kendo-scheduler-vue-wrapper'
+import { SchedulerView } from '@progress/kendo-scheduler-vue-wrapper'
 // import { SchedulerInstaller } from '@progress/kendo-scheduler-vue-wrapper'
 
 import likelySubtags from 'cldr-core/supplemental/likelySubtags.json'
@@ -28,6 +28,7 @@ import numbers from 'cldr-numbers-full/main/es/numbers.json'
 import caGregorian from 'cldr-dates-full/main/es/ca-gregorian.json'
 import dateFields from 'cldr-dates-full/main/es/dateFields.json'
 import timeZoneNames from 'cldr-dates-full/main/es/timeZoneNames.json'
+import router from './router'
 
 Vue.config.productionTip = false
 
@@ -107,5 +108,6 @@ const esMessages = {
 loadMessages(esMessages, 'es-MX')
 
 new Vue({
-  render: h => h(App),
+    router,
+    render: h => h(App)
 }).$mount('#app')

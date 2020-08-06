@@ -1,3 +1,4 @@
+
 <template>
   <div>
     <b-navbar toggleable="lg" type="dark" variant="primary">
@@ -6,6 +7,15 @@
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
       <b-collapse id="nav-collapse" is-nav>
+        <b-navbar-nav>
+          <li class="nav-item">
+            <router-link :to="{ name: 'Home' }" class="nav-link">Home</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link :to="{ name: 'About' }" class="nav-link">About</router-link>
+          </li>
+        </b-navbar-nav>
+
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown text="Idioma" right>
@@ -26,25 +36,20 @@
     </b-navbar>
     <b-container fluid>
       <localization :language="'en-US'">
-          <intl :locale="'en'">
-            <div id="app">
-              <HelloWorld msg="Welcome to Your Vue.js App"/>
-            </div>
-          </intl>
-        </localization>
+        <intl :locale="'en'">
+          <div id="app">
+            <router-view />
+          </div>
+        </intl>
+      </localization>
     </b-container>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  name: "App",
+};
 </script>
 
 <style lang="scss">
@@ -55,5 +60,9 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+a.nav-link.router-link-exact-active.router-link-active {
+  color: #fff;
 }
 </style>
