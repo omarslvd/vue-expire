@@ -5,7 +5,15 @@
     <datepicker />
     <b-btn variant="primary">Click</b-btn>
     <grid :data-items="items" :columns="columns" :edit-field="'inEdit'"></grid>
-    <kendo-scheduler :data-source="items" :selectable="true" :editable-template="editableTemplate" @save="onSave" @remove="onRemove" @change="onChange">
+    <kendo-scheduler
+      id="hola"
+      :data-source="items"
+      :selectable="false"
+      :editable-template="editableTemplate"
+      @save="onSave"
+      @remove="onRemove"
+      @change="onChange"
+    >
       <!-- <kendo-scheduler-view :type="'day'"></kendo-scheduler-view>
       <kendo-scheduler-view :type="'workWeek'" :selected="true"></kendo-scheduler-view>
       <kendo-scheduler-view :type="'week'"></kendo-scheduler-view>-->
@@ -54,7 +62,7 @@ export default {
           <span data-bind="text: startTimezone"></span>
           <span data-for="start" class="k-invalid-msg" style="display: none;"></span>
         </div>
-      `
+      `,
     };
   },
   computed: {
@@ -70,8 +78,8 @@ export default {
       console.log("Event :: edit", ev);
 
       if (ev.event.id > 0) {
-        var index = this.items.findIndex(item => item.id == ev.event.id);
-      
+        var index = this.items.findIndex((item) => item.id == ev.event.id);
+
         this.items[index].title = ev.event.title;
         this.items[index].start = ev.event.start;
       } else {
@@ -81,20 +89,20 @@ export default {
           expireDate: ev.event.start,
           start: ev.event.start,
           end: ev.event.start,
-          title: ev.event.title
-        })
+          title: ev.event.title,
+        });
       }
     },
     onRemove: function (ev) {
       console.log("Event :: remove", ev);
 
-      var index = this.items.findIndex(item => item.id == ev.event.id);
-      
+      var index = this.items.findIndex((item) => item.id == ev.event.id);
+
       this.items.splice(index, 1);
     },
     onChange: function (ev) {
       console.log("Event :: change", ev);
-    }
+    },
   },
 };
 </script>

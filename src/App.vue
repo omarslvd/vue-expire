@@ -14,6 +14,9 @@
           <li class="nav-item">
             <router-link :to="{ name: 'About' }" class="nav-link">About</router-link>
           </li>
+          <li class="nav-item">
+            <router-link :to="{ name: 'Test' }" class="nav-link">Test</router-link>
+          </li>
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->
