@@ -19,6 +19,7 @@ import { Scheduler } from "@progress/kendo-scheduler-vue-wrapper";
 // import { SchedulerResource } from '@progress/kendo-scheduler-vue-wrapper'
 import { SchedulerView } from "@progress/kendo-scheduler-vue-wrapper";
 //import { SchedulerInstaller } from '@progress/kendo-scheduler-vue-wrapper'
+import { Calendar } from "@progress/kendo-vue-dateinputs";
 
 import likelySubtags from "cldr-core/supplemental/likelySubtags.json";
 import currencyData from "cldr-core/supplemental/currencyData.json";
@@ -33,6 +34,7 @@ import router from "./router";
 Vue.config.productionTip = false;
 
 Vue.component("grid", Grid);
+Vue.component("calendar", Calendar);
 Vue.component("datepicker", DatePicker);
 Vue.component("kendo-scheduler", Scheduler);
 Vue.component("kendo-scheduler-view", SchedulerView);

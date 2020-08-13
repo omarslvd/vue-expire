@@ -1,5 +1,6 @@
 <template>
   <div>
+    <datepicker :calendar="customCalendar" :format="'MMMM yyyy'" v-model="date" />
     <table>
       <tr>
         <td>
@@ -35,40 +36,64 @@
 </template>
 
 <script>
+import CustomCalendar from "./CustomCalendar.vue";
+
 export default {
+  props: {
+    dataSource: {
+      type: Array,
+      default: function () {
+        return [];
+      },
+    },
+  },
   data() {
     return {
-      month: 8,
-      year: 2020,
-      events: [
-        {
-          id: 1,
-          name: "evento 1",
-          date: "28",
-        },
-        {
-          id: 2,
-          name: "evento 2",
-          date: "01",
-        },
-        {
-          id: 3,
-          name: "evento 3",
-          date: "28",
-        },
-      ],
-      rows: [
-        ["", "", "01", "02", "03", "04", "05"],
-        ["06", "07", "08", "09", "10", "11", "12"],
-        ["13", "14", "15", "16", "17", "18", "19"],
-        ["20", "21", "22", "23", "24", "25", "26"],
-        ["27", "28", "29", "30", "", "", ""],
-      ],
+      date: new Date(),
+      // month: 8,
+      // year: 2020,
+      customCalendar: CustomCalendar,
     };
+  },
+  computed: {
+    rows() {
+      const numDays = new Date(
+        this.date.getFullYear(),
+        this.date.getMonth() + 1,
+        0
+      ).getDate();
+      const daysBefore = new Date(
+        this.date.getFullYear(),
+        this.date.getMonth(),
+        1
+      ).getDay();
+      const daysAfter = new Date(
+        this.date.getFullYear(),
+        this.date.getMonth(),
+        numDays
+      ).getDay();
+
+      const numRows = (daysBefore + numDays + (6 - daysAfter)) / 7;
+
+      let array = [];
+
+      for (let i = 0; i < numRows; i++) {
+        let innerArray = [];
+
+        for (let j = 0; j < 7; j++) {
+          const value = j + 1 + 7 * i - daysBefore;
+          innerArray.push(value < 1 || value > numDays ? "" : value);
+        }
+
+        array.push(innerArray);
+      }
+
+      return array;
+    },
   },
   methods: {
     filter(date) {
-      return this.events.filter(function (event) {
+      return this.dataSource.filter(function (event) {
         return event.date == date;
       });
     },

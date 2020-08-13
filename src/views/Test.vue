@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Scheduler></Scheduler>
+    <Scheduler :data-source="events"></Scheduler>
   </div>
 </template>
 
@@ -11,16 +11,26 @@ export default {
   components: {
     Scheduler,
   },
-  computed: {
-    rows() {
-      return [
-        ["", "", "01", "02", "03", "04", "05"],
-        ["06", "07", "08", "09", "10", "11", "12"],
-        ["13", "14", "15", "16", "17", "18", "19"],
-        ["20", "21", "22", "23", "24", "25", "26"],
-        ["27", "28", "29", "30", "", "", ""],
-      ];
-    },
+  data() {
+    return {
+      events: [
+        {
+          id: 1,
+          name: "evento 1",
+          date: "28",
+        },
+        {
+          id: 2,
+          name: "evento 2",
+          date: "01",
+        },
+        {
+          id: 3,
+          name: "evento 3",
+          date: "28",
+        },
+      ],
+    };
   },
 };
 </script>
