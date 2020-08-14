@@ -30,6 +30,7 @@ import caGregorian from "cldr-dates-full/main/es/ca-gregorian.json";
 import dateFields from "cldr-dates-full/main/es/dateFields.json";
 import timeZoneNames from "cldr-dates-full/main/es/timeZoneNames.json";
 import router from "./router";
+import store from "./store";
 
 Vue.config.productionTip = false;
 
@@ -104,5 +105,6 @@ loadMessages(esMessages, "es-MX");
 
 new Vue({
   router,
+  store,
   render: (h) => h(App),
 }).$mount("#app");

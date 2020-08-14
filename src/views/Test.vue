@@ -13,23 +13,7 @@ export default {
   },
   data() {
     return {
-      events: [
-        {
-          id: 1,
-          name: "evento 1",
-          date: "28",
-        },
-        {
-          id: 2,
-          name: "evento 2",
-          date: "01",
-        },
-        {
-          id: 3,
-          name: "evento 3",
-          date: "28",
-        },
-      ],
+      events: this.$store.state.events,
     };
   },
 };

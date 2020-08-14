@@ -1,75 +1,35 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <input type="text" v-model="items[0].title" />
+    <input type="text" v-model="events[0].name" />
     <datepicker />
     <b-btn variant="primary">Click</b-btn>
-    <grid :data-items="items" :columns="columns" :edit-field="'inEdit'"></grid>
-    <kendo-scheduler
-      id="hola"
-      :data-source="items"
-      :selectable="false"
-      :editable-template="editableTemplate"
-      @save="onSave"
-      @remove="onRemove"
-      @change="onChange"
-    >
-      <!-- <kendo-scheduler-view :type="'day'"></kendo-scheduler-view>
-      <kendo-scheduler-view :type="'workWeek'" :selected="true"></kendo-scheduler-view>
-      <kendo-scheduler-view :type="'week'"></kendo-scheduler-view>-->
-      <kendo-scheduler-view :type="'month'"></kendo-scheduler-view>
-      <!-- <kendo-scheduler-view :type="'agenda'"></kendo-scheduler-view> -->
-    </kendo-scheduler>
+    <grid :data-items="events" :columns="columns" :edit-field="'inEdit'"></grid>
+    <Scheduler :data-source="events"></Scheduler>
   </div>
 </template>
 
 <script>
+import Scheduler from "@/components/Scheduler.vue";
+
 export default {
   name: "HelloWorld",
   props: {
     msg: String,
   },
+  components: {
+    Scheduler,
+  },
   data: function () {
     return {
-      items: [
-        {
-          id: 1,
-          name: "uno",
-          expireDate: new Date(1996, 8, 20),
-          start: new Date(2020, 7, 20),
-          end: new Date(2020, 7, 20),
-          title: "uno 1",
-        },
-        {
-          id: 2,
-          name: "dos",
-          expireDate: new Date(1996, 8, 20),
-          start: new Date(2020, 7, 28),
-          end: new Date(2020, 7, 28),
-          title: "dos 2",
-        },
-      ],
-      editableTemplate: `
-        <div class="k-edit-label"><label for="title">Title</label></div>
-          <div data-container-for="title" class="k-edit-field">
-          <input type="text" class="k-textbox" name="title" required="required" data-bind="value:title">
-        </div>
-        <div class="k-edit-label">
-          <label for="start">Start</label>
-        </div>
-        <div data-container-for="start" class="k-edit-field">
-          <input type="text" data-type="date" data-role="datepicker" data-bind="value:start," name="start" />
-          <span data-bind="text: startTimezone"></span>
-          <span data-for="start" class="k-invalid-msg" style="display: none;"></span>
-        </div>
-      `,
+      events: this.$store.state.events,
     };
   },
   computed: {
     columns: function () {
       return [
-        { field: "title", title: "Name" },
-        { field: "start", title: "Expire Date", format: "{0:d}" },
+        { field: "name", title: "Name" },
+        { field: "expireDate", title: "Expire Date", format: "{0:d}" },
       ];
     },
   },
