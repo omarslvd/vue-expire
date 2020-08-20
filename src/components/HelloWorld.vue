@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <input type="text" v-model="events[0].name" />
+    <!-- <input type="text" v-model="events[0].name" /> -->
     <datepicker />
     <b-btn variant="primary">Click</b-btn>
     <grid :data-items="events" :columns="columns" :edit-field="'inEdit'"></grid>

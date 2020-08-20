@@ -50,8 +50,25 @@
 </template>
 
 <script>
+import db from "./firebase/config.js";
+
 export default {
   name: "App",
+  created: function () {
+    db.collection("expiration-dates")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          this.$store.state.events.push({
+            id: doc.id,
+            name: doc.data().name,
+            expireDate: new Date(doc.data().date.seconds * 1000),
+            date: new Date(doc.data().date.seconds * 1000).getDate(),
+          });
+        });
+        console.log(this.$store.state.events);
+      });
+  },
 };
 </script>
 
