@@ -6,16 +6,16 @@
     <b-btn variant="primary" v-b-modal.modal-1>Click</b-btn>
     <grid :data-items="events" :columns="columns" :edit-field="'inEdit'"></grid>
     <Scheduler :data-source="events"></Scheduler>
-    <b-modal id="modal-1" title="BootstrapVue" @ok="handleOk">
+    <b-modal ref="modal-ref" id="modal-1" title="BootstrapVue" @ok="handleOk">
       <!-- <b-form @submit="onSubmit" @reset="onReset"> -->
-      <b-form>
+      <b-form ref="form-ref">
         <b-form-group id="input-group-1" label="Name:" label-for="input-1">
           <b-form-input id="input-1" type="text" required placeholder="Enter name"></b-form-input>
         </b-form-group>
 
         <b-form-group id="input-group-2" label="Expire date:" label-for="input-2">
           <!-- <b-form-input id="input-2" required placeholder="Enter expire date"></b-form-input> -->
-          <datepicker />
+          <datepicker :popupSettings="{ appendTo: 'form-ref' }" />
         </b-form-group>
         <b-button class="mt-3" block @click="$bvModal.hide('modal-1')">Close Me</b-button>
       </b-form>
