@@ -6,18 +6,26 @@
     <b-btn variant="primary" v-b-modal.modal-1>Click</b-btn>
     <grid :data-items="events" :columns="columns" :edit-field="'inEdit'"></grid>
     <Scheduler :data-source="events"></Scheduler>
-    <b-modal ref="modal-ref" id="modal-1" title="BootstrapVue" @ok="handleOk">
+    <b-modal id="modal-1" title="BootstrapVue" @ok="handleOk" @shown="showModal">
       <!-- <b-form @submit="onSubmit" @reset="onReset"> -->
       <b-form ref="form-ref">
-        <b-form-group id="input-group-1" label="Name:" label-for="input-1">
-          <b-form-input id="input-1" type="text" required placeholder="Enter name"></b-form-input>
+        <b-form-group id="name-group" label="Name:" label-for="name">
+          <b-form-input
+            id="name"
+            ref="name-ref"
+            type="text"
+            placeholder="Enter name"
+            v-model="selectedEvent.name"
+            required
+          ></b-form-input>
         </b-form-group>
-
-        <b-form-group id="input-group-2" label="Expire date:" label-for="input-2">
-          <!-- <b-form-input id="input-2" required placeholder="Enter expire date"></b-form-input> -->
-          <datepicker :popupSettings="{ appendTo: 'form-ref' }" />
+        <b-form-group id="expire-date-group" label="Expire date:" label-for="expire-date">
+          <datepicker
+            id="expire-date"
+            v-model="selectedEvent.date"
+            :popupSettings="{ appendTo: 'form-ref' }"
+          />
         </b-form-group>
-        <b-button class="mt-3" block @click="$bvModal.hide('modal-1')">Close Me</b-button>
       </b-form>
     </b-modal>
   </div>
@@ -25,6 +33,7 @@
 
 <script>
 import Scheduler from "@/components/Scheduler.vue";
+import db from "../firebase/config.js";
 
 export default {
   name: "HelloWorld",
@@ -37,6 +46,7 @@ export default {
   data: function () {
     return {
       events: this.$store.state.events,
+      selectedEvent: {},
     };
   },
   computed: {
@@ -79,11 +89,46 @@ export default {
     },
     handleOk: function (bvModalEvt) {
       bvModalEvt.preventDefault();
+
+      // Firebase
+      console.log(this.selectedEvent.name + " " + this.selectedEvent.date);
+      db.collection("expiration-dates")
+        .add({
+          name: this.selectedEvent.name,
+          date: this.selectedEvent.date,
+        })
+        // .then(
+        //   function (docRef) {
+        //     this.events.push({
+        //       id: docRef.id,
+        //       name: this.selectedEvent.name,
+        //       expireDate: this.selectedEvent.date,
+        //       date: this.selectedEvent.date.getDate(),
+        //     });
+        //     console.log("Document written with ID: ", docRef.id);
+        //   }.bind(this)
+        // )
+        .then((docRef) => {
+          this.events.push({
+            id: docRef.id,
+            name: this.selectedEvent.name,
+            expireDate: this.selectedEvent.date,
+            date: this.selectedEvent.date.getDate(),
+          });
+          console.log("Document written with ID: ", docRef.id);
+        })
+        .catch(function (error) {
+          console.error("Error adding document: ", error);
+        });
+
       // Hide the modal manually
       this.$nextTick(() => {
         this.$bvModal.hide("modal-1");
       });
-      console.log("OK");
+    },
+    showModal() {
+      this.selectedEvent = {};
+      this.$refs["name-ref"].focus();
     },
   },
 };
