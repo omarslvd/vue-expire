@@ -6,10 +6,21 @@
     <b-btn variant="primary" v-b-modal.modal-1>Click</b-btn>
     <grid :data-items="events" :columns="columns" :edit-field="'inEdit'"></grid>
     <Scheduler :data-source="events"></Scheduler>
-    <b-modal id="modal-1" title="BootstrapVue" @ok="handleOk" @shown="showModal">
+    <b-modal
+      id="modal-1"
+      title="BootstrapVue"
+      @ok="handleOk"
+      @shown="showModal"
+      @hidden="resetModal"
+    >
       <!-- <b-form @submit="onSubmit" @reset="onReset"> -->
-      <b-form ref="form-ref">
-        <b-form-group id="name-group" label="Name:" label-for="name">
+      <b-form ref="form-ref" :validated="true">
+        <b-form-group
+          id="name-group"
+          label="Name:"
+          label-for="name"
+          invalid-feedback="Name is required"
+        >
           <b-form-input
             id="name"
             ref="name-ref"
@@ -24,6 +35,8 @@
             id="expire-date"
             v-model="selectedEvent.date"
             :popupSettings="{ appendTo: 'form-ref' }"
+            :required="true"
+            validation-message="'Error'"
           />
         </b-form-group>
       </b-form>
@@ -47,6 +60,7 @@ export default {
     return {
       events: this.$store.state.events,
       selectedEvent: {},
+      valid: null,
     };
   },
   computed: {
@@ -87,8 +101,21 @@ export default {
     onChange: function (ev) {
       console.log("Event :: change", ev);
     },
+    checkFormValidity() {
+      const valid = this.$refs["form-ref"].checkValidity();
+      this.valid = valid;
+
+      return valid;
+    },
     handleOk: function (bvModalEvt) {
       bvModalEvt.preventDefault();
+
+      this.handleSubmit();
+    },
+    handleSubmit() {
+      if (!this.checkFormValidity()) {
+        return;
+      }
 
       // Firebase
       console.log(this.selectedEvent.name + " " + this.selectedEvent.date);
@@ -116,18 +143,23 @@ export default {
             date: this.selectedEvent.date.getDate(),
           });
           console.log("Document written with ID: ", docRef.id);
+
+          // Hide the modal manually
+          this.$nextTick(() => {
+            this.$bvModal.hide("modal-1");
+          });
         })
         .catch(function (error) {
           console.error("Error adding document: ", error);
         });
-
-      // Hide the modal manually
-      this.$nextTick(() => {
-        this.$bvModal.hide("modal-1");
-      });
+    },
+    resetModal() {
+      this.selectedEvent = {};
+      this.valid = null;
     },
     showModal() {
-      this.selectedEvent = {};
+      this.resetModal();
+      //this.selectedEvent = { name: "", date: new Date() };
       this.$refs["name-ref"].focus();
     },
   },
@@ -149,5 +181,8 @@ li {
 }
 a {
   color: #42b983;
+}
+.k-widget.k-datepicker {
+  width: 100%;
 }
 </style>

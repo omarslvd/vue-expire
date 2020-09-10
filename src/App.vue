@@ -62,8 +62,10 @@ export default {
           this.$store.state.events.push({
             id: doc.id,
             name: doc.data().name,
-            expireDate: new Date(doc.data().date.seconds * 1000),
-            date: new Date(doc.data().date.seconds * 1000).getDate(),
+            //expireDate: new Date(doc.data().date.seconds * 1000),
+            expireDate: doc.data().date.toDate(),
+            //date: new Date(doc.data().date.seconds * 1000).getDate(),
+            date: doc.data().date.toDate().getDate(),
           });
         });
         console.log(this.$store.state.events);
