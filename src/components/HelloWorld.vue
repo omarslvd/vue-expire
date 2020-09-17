@@ -14,7 +14,7 @@
       @hidden="resetModal"
     >
       <!-- <b-form @submit="onSubmit" @reset="onReset"> -->
-      <b-form ref="form-ref" :validated="true">
+      <b-form ref="form-ref">
         <b-form-group
           id="name-group"
           label="Name:"
@@ -30,7 +30,13 @@
             required
           ></b-form-input>
         </b-form-group>
-        <b-form-group id="expire-date-group" label="Expire date:" label-for="expire-date">
+        <b-form-group
+          id="expire-date-group"
+          label="Expire date:"
+          label-for="expire-date"
+          invalid-feedback="Expire date is required"
+          :state="validExpireDate"
+        >
           <datepicker
             id="expire-date"
             v-model="selectedEvent.date"
@@ -60,8 +66,16 @@ export default {
     return {
       events: this.$store.state.events,
       selectedEvent: {},
-      valid: null,
+      validExpireDate: null,
     };
+  },
+  watch: {
+    selectedEvent: {
+      handler: function (val) {
+        this.validExpireDate = val.date ? true : false;
+      },
+      deep: true,
+    },
   },
   computed: {
     columns: function () {
@@ -69,6 +83,9 @@ export default {
         { field: "name", title: "Name" },
         { field: "expireDate", title: "Expire Date", format: "{0:d}" },
       ];
+    },
+    changeValidExpireDate: function () {
+      return true;
     },
   },
   methods: {
@@ -103,7 +120,8 @@ export default {
     },
     checkFormValidity() {
       const valid = this.$refs["form-ref"].checkValidity();
-      this.valid = valid;
+
+      this.validExpireDate = this.selectedEvent.date ? true : false;
 
       return valid;
     },
@@ -113,6 +131,7 @@ export default {
       this.handleSubmit();
     },
     handleSubmit() {
+      this.$refs["form-ref"].classList.add("was-validated");
       if (!this.checkFormValidity()) {
         return;
       }
