@@ -178,7 +178,7 @@ export default {
     },
     showModal() {
       this.resetModal();
-      //this.selectedEvent = { name: "", date: new Date() };
+      this.selectedEvent = { name: "", date: new Date() };
       this.$refs["name-ref"].focus();
     },
   },
