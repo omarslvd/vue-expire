@@ -13,8 +13,9 @@
       @shown="showModal"
       @hidden="resetModal"
     >
+      <div v-if="loading">Loading...</div>
       <!-- <b-form @submit="onSubmit" @reset="onReset"> -->
-      <b-form ref="form-ref">
+      <b-form v-else ref="form-ref">
         <b-form-group
           id="name-group"
           label="Name:"
@@ -67,6 +68,7 @@ export default {
       events: this.$store.state.events,
       selectedEvent: {},
       validExpireDate: null,
+      loading: true,
     };
   },
   watch: {
@@ -84,40 +86,8 @@ export default {
         { field: "expireDate", title: "Expire Date", format: "{0:d}" },
       ];
     },
-    changeValidExpireDate: function () {
-      return true;
-    },
   },
   methods: {
-    onSave: function (ev) {
-      console.log("Event :: edit", ev);
-
-      if (ev.event.id > 0) {
-        var index = this.items.findIndex((item) => item.id == ev.event.id);
-
-        this.items[index].title = ev.event.title;
-        this.items[index].start = ev.event.start;
-      } else {
-        this.items.push({
-          id: this.items.length + 1,
-          name: ev.event.title,
-          expireDate: ev.event.start,
-          start: ev.event.start,
-          end: ev.event.start,
-          title: ev.event.title,
-        });
-      }
-    },
-    onRemove: function (ev) {
-      console.log("Event :: remove", ev);
-
-      var index = this.items.findIndex((item) => item.id == ev.event.id);
-
-      this.items.splice(index, 1);
-    },
-    onChange: function (ev) {
-      console.log("Event :: change", ev);
-    },
     checkFormValidity() {
       const valid = this.$refs["form-ref"].checkValidity();
 
@@ -174,9 +144,12 @@ export default {
     },
     resetModal() {
       this.selectedEvent = {};
-      this.valid = null;
+      this.loading = true;
     },
     showModal() {
+      this.$nextTick(() => {
+        this.loading = false;
+      });
       this.resetModal();
       this.selectedEvent = { name: "", date: new Date() };
       this.$refs["name-ref"].focus();
